@@ -2,8 +2,9 @@
 
 自动从 [https://ipdb.api.030101.xyz/?type=bestcf&country=true](https://ipdb.api.030101.xyz/?type=bestcf&country=true) 获取官方优选IP，取ping值最低的ip绑定域名。
 
-使用方法
-配置config.json
+# 使用方法
+
+## 配置config.json
 
 {"email": "账户email", "key": "账户key", "domainInfos":[["名称", "根域", "需要屏蔽地区的关键字"], ["名称", "根域"]]}
 
@@ -16,3 +17,9 @@
 {"email": "账户email", "key": "账户key", "domainInfos":[["A", "B.com", "HK"]}
 
 具体文件名参考 [https://ipdb.api.030101.xyz](https://ipdb.api.030101.xyz)
+
+## 运行程序
+
+./updateBestCFIP -file config.json文件所在位置
+
+若config.json与程序同目录，可直接 ./updateBestCFIP 运行程序
