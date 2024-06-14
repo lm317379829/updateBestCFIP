@@ -15,4 +15,4 @@
 
 {"email": "账户email", "key": "账户key", "domainInfos":[["A", "B.com", "HK"]}
 
-具体文件名参考 [https://zip.baipiao.eu.org](https://ipdb.api.030101.xyz)
+具体文件名参考 [https://ipdb.api.030101.xyz](https://ipdb.api.030101.xyz)
