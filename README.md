@@ -4,7 +4,7 @@
 
 # 使用方法
 
-## 配置config.json
+### 配置config.json
 
 {"email": "账户email", "key": "账户key", "domainInfos":[["名称", "根域", "需要屏蔽地区的关键字"], ["名称", "根域"]]}
 
@@ -18,7 +18,7 @@
 
 具体文件名参考 [https://ipdb.api.030101.xyz](https://ipdb.api.030101.xyz)
 
-## 运行程序
+### 运行程序
 
 ./updateBestCFIP -file config.json文件所在位置
 
