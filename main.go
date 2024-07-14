@@ -149,9 +149,9 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			logStr := fmt.Sprintf("第%d次读取 %s 访问结果出错: %s", retry, url, err)
+			resp.Body.Close()
 			log.Info(logStr)
 			retry++
-			resp.Body.Close()
 			continue
 		}
 		resp.Body.Close()
@@ -183,9 +183,9 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 		body, err = io.ReadAll(resp.Body)
 		if err != nil {
 			logStr := fmt.Sprintf("第%d次读取 %s 访问结果出错: %s", retry, url, err)
+			resp.Body.Close()
 			log.Info(logStr)
 			retry++
-			resp.Body.Close()
 			continue
 		}
 		resp.Body.Close()
@@ -194,18 +194,21 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 		json.Unmarshal(body, &dnsRecords)
 		resultList := dnsRecords["result"].([]interface{})
 		rid := ""
+		proxiable := false
 		for _, record := range resultList {
 			if record.(map[string]interface{})["type"].(string) == "A" {
 				rid = record.(map[string]interface{})["id"].(string)
+				proxiable = record.(map[string]interface{})["proxiable"].(bool)
 				break
 			}
 		}
 
 		params := map[string]interface{}{
-			"id":      zid,
-			"type":    "A",
-			"name":    fmt.Sprintf("%s.%s", name, domain),
-			"content": ip,
+			"id":        zid,
+			"type":      "A",
+			"name":      fmt.Sprintf("%s.%s", name, domain),
+			"content":   ip,
+			"proxiable": proxiable,
 		}
 		if rid == "" {
 			continue
@@ -234,9 +237,11 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 
 		if resp.StatusCode == 200 {
 			logStr := fmt.Sprintf("成功更新%s.%s的ip为%s", name, domain, ip)
+			resp.Body.Close()
 			log.Info(logStr)
 			break
 		} else {
+			resp.Body.Close()
 			retry++
 		}
 	}
