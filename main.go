@@ -194,7 +194,7 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 		json.Unmarshal(body, &dnsRecords)
 		resultList := dnsRecords["result"].([]interface{})
 		rid := ""
-		proxiable := false
+		proxied := false
 		for _, record := range resultList {
 			if record.(map[string]interface{})["type"].(string) == "A" {
 				rid = record.(map[string]interface{})["id"].(string)
@@ -204,10 +204,10 @@ func uploadIP(ip, name string, domain string, email string, key string) {
 		}
 
 		params := map[string]interface{}{
-			"id":        zid,
-			"type":      "A",
-			"name":      fmt.Sprintf("%s.%s", name, domain),
-			"content":   ip,
+			"id":      zid,
+			"type":    "A",
+			"name":    fmt.Sprintf("%s.%s", name, domain),
+			"content": ip,
 			"proxied": proxied,
 		}
 		if rid == "" {
