@@ -77,7 +77,7 @@ func getResultList(content string, blockArea string) []LatencyResult {
 		if strings.Contains(ip, "#") {
 			parts := strings.Split(ip, "#")
 			ip = parts[0]
-			if strings.Contains(parts[1], blockArea) {
+			if blockArea != "" && strings.Contains(parts[1], blockArea) {
 				continue
 			}
 		}
@@ -287,7 +287,7 @@ func handleMain(config Config, domainInfo []string) {
 			uploadIP(globalIP, domainInfo[0], domainInfo[1], config.Email, config.Key)
 		}
 	} else {
-		logStr := fmt.Sprintf("域名%s的ip延时为%dms小于200ms，未更新", url, result.Latency)
+		logStr := fmt.Sprintf("域名%s的ip延时为%dms小于200ms, 未更新", url, result.Latency)
 		log.Info(logStr)
 	}
 
