@@ -10,7 +10,7 @@ on:
         default: 'false'
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         platform: [ubuntu-latest]
-        go-version: [ '1.21' ]
+        go-version: [ '1.26.1' ]
     name: Build
     runs-on: ${{ matrix.platform }}
     steps:
@@ -54,7 +54,6 @@ jobs:
           GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w" -tags netgo -installsuffix netgo -o updateBestCFIP-windows-amd64.exe
           GOOS=freebsd GOARCH=386 CGO_ENABLED=0 go build -ldflags "-s -w" -tags netgo -installsuffix netgo -o updateBestCFIP-freebsd-386
           GOOS=freebsd GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w" -tags netgo -installsuffix netgo -o updateBestCFIP-freebsd-amd64
-          echo "FILESNAME=$PWD" >> $GITHUB_ENV
   
       - name: Bump Version and Push Tag
         id: bump
@@ -69,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.bump.outputs.new_tag }}
-          files: ${{ env.FILESNAME }}/updateBestCFIP-*
+          files: updateBestCFIP-*
 
       - name: Delete Workflow Runs
         uses: Mattraks/delete-workflow-runs@v2
